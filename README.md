@@ -3,10 +3,10 @@
 <p>SmartExecutor is designed to reduce the sequence explosion of symbolic execution on smart contracts.</p>
 <p>It is built on top of Mythril.</p>
 
-<<<<<<< HEAD
+
 <br>
 <br>
-Get it with docker:<br>
+
 
 
 Get it with docker:<br>
