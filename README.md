@@ -8,14 +8,12 @@
 <br>
 Get it with docker:<br>
 
-```bash
-$ docker pull 23278942/smartexecutor
-=======
+
 Get it with docker:<br>
 
 ```bash
-$ docker pull 23278942/smartexecutor:v07
->>>>>>> 493d582e0ceb5d075ad080c40f2a8c537e9ea073
+$ docker pull 23278942/smartexecutor
+
 ```
 
 How to run SmartExecutor:<br>
