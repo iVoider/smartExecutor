@@ -2,6 +2,7 @@
 from fdg import utils
 from fdg.FDG import FDG
 import fdg.FDG_global
+from fdg.merge_sequences import merge_sequences
 from fdg.sequenceAndState import SequenceAndState
 
 
@@ -62,7 +63,57 @@ class SequenceGeneration():
         else:#changed
             return [seq + [ftn_idx] for seq in sequences]
 
-   
+    def generate_sequences_paper(self, ftn_idx: int) -> list:
+        """
+        get parent combinations
+        one combination-> one sequence
+        :param ftn_idx:
+        :return:
+        """
+        sv_parents = self.FDG.get_parents(ftn_idx)
+        if len(sv_parents) == 0: return []
+
+        sv_list = list(sv_parents.keys())
+        # sv_list =[2,3,4]
+
+
+        generated_sequences = []  # to save the  generated sequences
+        sv_combs = []
+        for length in range(1, len(sv_list) + 1):
+            sv_combs += utils.get_combination_for_a_list(sv_list, length)
+        for sv_comb in sv_combs:
+            if len(sv_comb) == 1:
+                if isinstance(sv_parents, dict):
+                    sequences = self.parent_sequences_write_one_SV(ftn_idx, sv_parents[sv_comb[0]], -1,
+                                                                   self.phase1_depth)
+                    for seq in sequences:
+                        if seq not in generated_sequences:
+                            generated_sequences.append(seq)
+                else:
+                    assert False, "data type error"
+                continue
+
+            # replace each sv with the corresponding parents
+            sv_comb_parents = [sv_parents[sv] for sv in sv_comb]
+            parent_combs = utils.get_combination(sv_comb_parents, len(sv_comb))
+            for parent_comb in parent_combs:
+                parent_comb = list(set(parent_comb))
+                if len(parent_comb) < len(sv_comb): continue
+                parent_sequence_list = []
+                flag_comb = True
+                for parent in parent_comb:
+                    parent_seq = self.sequenceAndState.get_n_shortest_state_changing_sequences_for_a_function(parent, 1)
+                    if len(parent_seq) == 0:
+                        flag_comb = False
+                        break  # if thre is one parent that does not have a parent sequence, ignore this parent combination
+                    parent_sequence_list.append(parent_seq[0])
+                if flag_comb:
+                    generate_seq,_ = merge_sequences(parent_sequence_list, ftn_idx, self.FDG.graph_dict)
+                    if generate_seq not in generated_sequences:
+                        generated_sequences.append(generate_seq)
+
+        return generated_sequences
+
     def _get_a_topological_sequence_0(self,ftn_idx:int, sequences:list)->list:
         """
         get a topological sequence from multiple sequences;
