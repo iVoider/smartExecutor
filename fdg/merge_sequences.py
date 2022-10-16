@@ -1,4 +1,4 @@
-def get_graph(sequences: list, ftn_idx: int, all_edges: dict,all_nodes:list) -> dict:
+def get_graph(sequences: list, ftn_idx: int, all_edges: dict, all_involved_nodes:list) -> dict:
     """
     build a graph starting with the constructor and ending with self.ftn_idx
     add missing edges between non-constructor functions
@@ -33,14 +33,15 @@ def get_graph(sequences: list, ftn_idx: int, all_edges: dict,all_nodes:list) -> 
             if ftn_idx not in graph[ftn_start]:
                 graph[ftn_start] += [ftn_idx]
 
-        # add edges between nodes(not include the start node) that are not added based on all_edges and all_nodes
+        # add data-dependent edges between nodes(not include the start node) that are not added based on all_edges(the fdg) and all_involved_nodes
         for key,value in graph.items():
             if key==0: continue
+            if key==ftn_idx:continue # do not consider the edges from the target function to its children as we only handle the dependents of the target.
             if key in all_edges.keys():
                 children=value
                 children_all=all_edges[key]
                 for child in children_all:
-                    if child in all_nodes and child not in value:
+                    if child in all_involved_nodes and child not in value:
                         # find a missing edge and add it
                         children.append(child)
                 graph[key]=children

@@ -442,13 +442,8 @@ def create_analyzer_parser(analyzer_parser: ArgumentParser):
         "-fct",
         "--function-coverage-threshold",
         type=int,
-<<<<<<< HEAD
         default=100,
         help="specify the code coverage threshold that is used to determine deep functions",
-=======
-        default=5,
-        help="possible values:0,1,2,3,4,5,6,7,8. the control level for sequence generation",
->>>>>>> 493d582e0ceb5d075ad080c40f2a8c537e9ea073
     )
     #@wei
     options.add_argument(
@@ -463,11 +458,10 @@ def create_analyzer_parser(analyzer_parser: ArgumentParser):
         "-p1",
         "--phase1-depth-limit",
         type=int,
-<<<<<<< HEAD
         default=2,
         help="limit the execution depth in phase 1.",
     )
-
+    # @wei
     options.add_argument(
         "-p1All",
         "--phase1-execute-all-sequences",
@@ -475,17 +469,13 @@ def create_analyzer_parser(analyzer_parser: ArgumentParser):
         default=0,
         help="1, execute all sequences in phase 1; others: execute sequences in an FDG.",
     )
-
+    # @wei
     options.add_argument(
         "-p2",
         "--phase2-include",
         type=int,
         default=1,
         help="indicate if phase 2 should be included.1: means yes; ohters mean no.",
-=======
-        default=3,
-        help="limit the number of seqeunces generated for each function that will be assigned to be executed.",
->>>>>>> 493d582e0ceb5d075ad080c40f2a8c537e9ea073
     )
 
     #@wei
@@ -512,7 +502,6 @@ def create_analyzer_parser(analyzer_parser: ArgumentParser):
         "--state-variable-phase1",
         type=int,
         default=0,
-
         help="only consider the state variables read in conditions. 0: no, 1:yes",
 
     )
@@ -522,10 +511,10 @@ def create_analyzer_parser(analyzer_parser: ArgumentParser):
         "--state-variable-phase2",
         type=int,
         default=1,
-
         help="only consider the state variables read in conditions.0:no, 1:yes",
 
     )
+    # @wei
     options.add_argument(
         "-p",
         "--print-function-coverage",
@@ -797,14 +786,9 @@ def execute_command(
         fdg.FDG_global.seq_num_limit = args.sequence_number_limit
         fdg.FDG_global.print_function_coverage=args.print_function_coverage
         fdg.FDG_global.sequences=args.sequences
-<<<<<<< HEAD
         fdg.FDG_global.level_phase1= args.state_variable_phase1
         fdg.FDG_global.level_phase2 = args.state_variable_phase2
         fdg.FDG_global.phase2_method_select=args.sequence_method_indicator
-=======
-        fdg.FDG_global.sequences=args.sequences
-
->>>>>>> 493d582e0ceb5d075ad080c40f2a8c537e9ea073
 
 
         analyzer = MythrilAnalyzer(

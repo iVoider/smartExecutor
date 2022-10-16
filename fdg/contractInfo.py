@@ -136,8 +136,10 @@ class ContractInfo():
         return self.function_info[ftn_idx]['name']
 
     def get_selector_from_index(self,ftn_idx):
-        assert ftn_idx in self.function_info.keys()
-        return self.function_info[ftn_idx]['selector']
+
+        if ftn_idx in self.function_info.keys():
+            return self.function_info[ftn_idx]['selector']
+        else:return 'None'
 
     def get_state_variable_type(self,sv:str):
         assert sv in self.stateVariable_info.keys()
